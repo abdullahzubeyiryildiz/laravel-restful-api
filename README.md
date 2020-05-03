@@ -1,5 +1,5 @@
-<p align="left" style="width: 50%;float: left;"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
-<p align="right" style="width: 50%;float: left;"><a href="https://wwwpratikyazilimci.com"><img src="https://www.pratikyazilimci.com/images/site/logo2.png" width="400"></a></p>
+<p align="left"  width="200"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+<p align="right" width="200"><a href="https://wwwpratikyazilimci.com"><img src="https://www.pratikyazilimci.com/images/site/logo2.png" width="400"></a></p>
 
 
 ## Laravel Restful Api
