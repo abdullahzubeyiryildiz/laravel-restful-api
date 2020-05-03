@@ -8,7 +8,7 @@ Merhaba Bir proje geliştirirken restful api ye ihtiyacımın olduğunu öğrend
 - [Pratik Yazılımcı](https://www.pratikyazilimci.com)
 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Şuan Temel Düzey Laravel Öğreniyorum. Bu kısım da Projeyi Geliştirdikçe Buraya Güncelleme yaparım özellikleri hakkında.
 
 ## License
 
