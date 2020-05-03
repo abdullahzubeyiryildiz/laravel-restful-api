@@ -6,7 +6,7 @@
 
 Merhaba Bir proje geliştirirken restful api ye ihtiyacımın olduğunu öğrendiğimde laravel en doğru seçenek olacağını düşündüm ve restful api geliştirmeye başladım henüz temel düzeyde yapcağım değişiklikleri işlemleri githuba da yükleyim dedim sonradan dönüp bakarım ve sizlerde incelersiniz diye herkese açık paylaşmak istedim.
 
-- [Pratik Yazılımcı](https://www.pratikyazilimci.com).
+- [Pratik Yazılımcı](https://www.pratikyazilimci.com)
 
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
