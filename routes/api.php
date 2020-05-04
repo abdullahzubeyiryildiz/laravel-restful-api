@@ -27,3 +27,13 @@ Route::get('/hello' ,function () {
 Route::get('/users' ,function () {
     return  factory(User::class,10)->make();
 });
+
+//Route::apiResource('/users','Api\UserController');
+//Route::apiResource('/products','Api\ProductController');
+//Route::apiResource('/categories','Api\CategoryController');
+
+Route::apiResources([
+    'users' => 'Api\UserController',
+    'products' => 'Api\ProductController',
+    'categories' => 'Api\CategoryController'
+]);
