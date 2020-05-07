@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductWithCategoriesResource;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
-use PhpParser\Node\Stmt\Return_;
 
 
 class ProductController extends Controller
@@ -14,19 +16,29 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function index(Request $request)
     {
 //        return Product::all();
 //        return response()->json(Product::all(),200);
 //        return response(Product::all(), 200);
-//        return response(Product::paginate(10),200);
+
 //        $offset = $request->offset ? $request->offset : 0;
 //        $limit = $request->limit ? $request->limit : 10;
-        $offset = $request->has('offset') ? $request->query('offset') : 0;
-        $limit = $request->has('limit') ? $request->query('limit') : 10;
-        $qb = Product::query();
+
+        $offset = $request->has('offset') ? $request->query('offset') : '1';
+        $limit = $request->has('limit') ? $request->query('limit') : '10';
+//
+//        $offset = $request->has('offset') ? $request->query('offset') : '';
+//        $limit = $request->has('limit') ? $request->query('limit') : '';
+
+//        if ($offset == '' AND $limit == '') {
+//            return response(Product::paginate(10),200);
+//        }
+
+        $qb = Product::query()->with('categories');
         if ($request->has('q'))
             $qb->where('name', 'like', '%' . $request->query('q') . '%');
 //      return response(Product::offset($offset)->limit($limit)->get(), 200);
@@ -34,14 +46,16 @@ class ProductController extends Controller
             $qb->orderBy($request->query('sortBy'), $request->query('sort', 'DESC'));
 
         $data = $qb->offset($offset)->limit($limit)->get();
+
+        $data = $data->makeHidden('slug'); // gizlencek klonu belirler
         return response($data, 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -61,8 +75,8 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
+     * @param  $id
+     * @return Response
      */
     public function show($id)
     {
@@ -80,9 +94,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
+     * @param Request  $request
+     * @param Product  $product
+     * @return Response
      */
     public function update(Request $request, Product $product)
     {
@@ -107,8 +121,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
+     * @param  Product  $product
+     * @return Response
+     * @throws  \Exception
      */
     public function destroy(Product $product)
     {
@@ -116,5 +131,35 @@ class ProductController extends Controller
         return response([
             'message' => 'Product deleted'
         ], 200);
+    }
+
+    public function custom1() {
+
+       // return Product::select('id','name')->orderBy('created_at','desc')->take(10)->get();
+        return Product::selectRaw('id as product_id,name as product_name')
+            ->orderBy('created_at','desc')->take(10)->get();
+    }
+
+    public function custom2() {
+        $products = Product::orderBy('created_at','desc')->take(10)->get();
+        $mapped = $products->map(function ($product) {
+           return [
+               '_id' => $product['id'],
+               'product_name' => $product['name'],
+               'product_price' => $product['price'] * 1.03,
+           ];
+        });
+        return $mapped->all();
+    }
+
+    public function custom3() {
+
+        $products = Product::paginate(10);
+        return ProductResource::collection($products);
+    }
+
+    public function listWithCategories() {
+        $products = Product::paginate(10);
+        return ProductWithCategoriesResource::collection($products);
     }
 }

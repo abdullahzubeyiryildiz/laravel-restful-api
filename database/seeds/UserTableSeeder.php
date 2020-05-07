@@ -19,6 +19,8 @@ class UserTableSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@laravelapi.test',
             'email_verified_at' => now(),
+            'first_name' => 'Abdullah',
+            'last_name' => 'Yıldız',
             'password' => bcrypt(123), // password
             'remember_token' => Str::random(10),
         ]);
