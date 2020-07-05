@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Http\Requests\UserStoreRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Api;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 
-class UserController extends Controller
+
+
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -44,20 +48,25 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user-> email_verified_at = now();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email_verified_at = now();
         $user->password = bcrypt($request->password);
         $user->remember_token = Str::random(10);
         $user->save();
 
-        return response([
+         return response([
             "data" => $user,
             "message" => "User created."
         ], 201);
+
+       /* return $this->apiResponse(ResultType::Success, $user,'User created.', 201); */
     }
 
     /**

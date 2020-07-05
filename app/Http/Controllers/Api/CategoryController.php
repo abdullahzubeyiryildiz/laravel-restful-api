@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 
-class CategoryController extends Controller
+class CategoryController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return response(Category::all(), 200);
+        //return response(Category::all(), 200);
+        return $this->apiResponse(ResultType::Success, Category::all(), 'Categories Ferched', 200);
     }
 
     /**
@@ -35,10 +36,12 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);
         $category->save();
-        return response([
+        /* return response([
             "data" => $category,
             "message" => "Category created."
-        ], 201);
+        ], 201); */
+         return  $this->apiResponse(ResultType::Success, $category, 'Category Created', 201);
+
     }
 
     /**
@@ -51,11 +54,13 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return  $category;
+        //return  $category;
 //        if ($category)
 //            return $category;
 //        else
 //            return response(['message' => 'Category not found!'], 404);
+      return  $this->apiResponse(ResultType::Success, $category, 'Category Ferched', 200);
+
     }
 
     /**
@@ -71,10 +76,11 @@ class CategoryController extends Controller
         $category->slug = Str::slug($request->name);
         $category->save();
 
-        return response([
+       /*  return response([
             "data" => $category,
             "message" => "Category updated."
-        ], 200);
+        ], 200); */
+        return  $this->apiResponse(ResultType::Success, $category, 'Category updated', 200);
     }
 
     /**
@@ -88,9 +94,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return response([
+        /* return response([
             'message' => 'Category deleted'
-        ], 200);
+        ], 200); */
+        return  $this->apiResponse(ResultType::Success, null, 'Category deleted', 200);
     }
 
     public function custom1 () {

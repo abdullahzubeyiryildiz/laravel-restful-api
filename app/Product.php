@@ -11,7 +11,9 @@ class Product extends Model
 protected $guarded = []; //'veritabanı işlemlerinin yapılmasını istemediğimiz stun adları'
 
     //protected $hidden = ['slug'];
-        public  function  categories() {
+
+
+    public  function  categories() {
             return $this->belongsToMany('App\Category', 'product_categories');
         }
 }

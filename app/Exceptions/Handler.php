@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\ResultType;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,6 +55,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+       // dd($exception);
+        if ($exception instanceof  ModelNotFoundException)
+            return  (new ApiController)->apiResponse(ResultType::Error, null, 'Kayıt Bulunamadı', 404);
+        else if ($exception instanceof  NotFoundHttpException)
+            return  (new ApiController)->apiResponse(ResultType::Error, null, 'Sayfa Bulunamadı', 404);
+        //return parent::render($request, $exception);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,3 +52,17 @@ Route::prefix('basics')->group(function (){
 //Route::get('/product/{id}/{type?}', 'ProductController@show')->name('product.show');
 
 Route::resource('/products','ProductController');
+
+
+
+Route::get('/secured', function () {
+    return "You are authenticatred";
+})->middleware('auth');
+
+
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
